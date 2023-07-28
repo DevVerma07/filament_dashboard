@@ -1,17 +1,23 @@
 <?php
 
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Http\Middleware\MirrorConfigToSubpackages;
 use Filament\Pages;
 use Filament\Widgets;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Filament\Widgets\AccountWidget;
+use App\Filament\Widgets\LatestOrders;
+use App\Filament\Widgets\BlogPostsChart;
+use Filament\Widgets\FilamentInfoWidget;
+use Filament\Http\Middleware\Authenticate;
+use App\Filament\Widgets\BlogPostsOverview;
+use App\Filament\Widgets\PostOverview;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
-use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Http\Middleware\MirrorConfigToSubpackages;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
 return [
 
@@ -139,8 +145,13 @@ return [
         'namespace' => 'App\\Filament\\Widgets',
         'path' => app_path('Filament/Widgets'),
         'register' => [
-            Widgets\AccountWidget::class,
-            Widgets\FilamentInfoWidget::class,
+            // AccountWidget::class,
+            // FilamentInfoWidget::class,
+            BlogPostsOverview::class,
+            PostOverview::class,
+            BlogPostsChart::class,
+            LatestOrders::class,
+
         ],
     ],
 

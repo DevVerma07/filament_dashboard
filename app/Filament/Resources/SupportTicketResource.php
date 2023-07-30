@@ -2,24 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TagsResource\RelationManagers\PostsRelationManager;
-use Closure;
-use App\Models\Tag;
+use App\Filament\Resources\SupportTicketResource\Pages;
+use App\Filament\Resources\SupportTicketResource\RelationManagers;
+use App\Models\SupportTicket;
 use Filament\Forms;
-use Filament\Tables;
-use Illuminate\Support\Str;
 use Filament\Resources\Form;
-use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Resources\Table;
+use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\TagResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\TagResource\RelationManagers;
 
-class TagResource extends Resource
+class SupportTicketResource extends Resource
 {
-    protected static ?string $model = Tag::class;
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $model = SupportTicket::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -27,13 +23,9 @@ class TagResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('question')
                     ->required()
-                    ->reactive()
-                    ->afterStateUpdated(function (Closure $set, $state) {
-                        $set('slug', Str::slug($state));
-                    }),
-                Forms\Components\TextInput::make('slug')->required(),
+                    ->maxLength(255),
             ]);
     }
 
@@ -41,8 +33,7 @@ class TagResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->limit('50')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('slug')->limit('50')->sortable(),
+                Tables\Columns\TextColumn::make('question'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()->since(),
                 Tables\Columns\TextColumn::make('updated_at')
@@ -62,16 +53,16 @@ class TagResource extends Resource
     public static function getRelations(): array
     {
         return [
-            PostsRelationManager::class
+            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTags::route('/'),
-            'create' => Pages\CreateTag::route('/create'),
-            'edit' => Pages\EditTag::route('/{record}/edit'),
+            'index' => Pages\ListSupportTickets::route('/'),
+            'create' => Pages\CreateSupportTicket::route('/create'),
+            'edit' => Pages\EditSupportTicket::route('/{record}/edit'),
         ];
     }
 }

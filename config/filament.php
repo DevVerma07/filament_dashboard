@@ -148,7 +148,6 @@ return [
             // AccountWidget::class,
             // FilamentInfoWidget::class,
             BlogPostsOverview::class,
-            PostOverview::class,
             BlogPostsChart::class,
             LatestOrders::class,
 

@@ -2,24 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TagsResource\RelationManagers\PostsRelationManager;
-use Closure;
-use App\Models\Tag;
 use Filament\Forms;
 use Filament\Tables;
-use Illuminate\Support\Str;
+use App\Models\Comment;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\TagResource\Pages;
+use Filament\Forms\Components\BelongsToSelect;
+use App\Filament\Resources\CommentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\TagResource\RelationManagers;
+use App\Filament\Resources\CommentResource\RelationManagers;
 
-class TagResource extends Resource
+class CommentResource extends Resource
 {
-    protected static ?string $model = Tag::class;
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $model = Comment::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -27,13 +24,15 @@ class TagResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\Textarea::make('body')
                     ->required()
-                    ->reactive()
-                    ->afterStateUpdated(function (Closure $set, $state) {
-                        $set('slug', Str::slug($state));
-                    }),
-                Forms\Components\TextInput::make('slug')->required(),
+                    ->maxLength(65535),
+                Forms\Components\TextInput::make('image')
+                    ->maxLength(255),
+                BelongsToSelect::make('user_id')
+                    ->relationship('user', 'name')->required(),
+                    BelongsToSelect::make('support_ticket_id')
+                    ->relationship('support_ticket', 'question')->required(),
             ]);
     }
 
@@ -41,8 +40,10 @@ class TagResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->limit('50')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('slug')->limit('50')->sortable(),
+                Tables\Columns\TextColumn::make('body'),
+                Tables\Columns\TextColumn::make('image'),
+                Tables\Columns\TextColumn::make('user_id'),
+                Tables\Columns\TextColumn::make('support_ticket_id'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()->since(),
                 Tables\Columns\TextColumn::make('updated_at')
@@ -62,16 +63,16 @@ class TagResource extends Resource
     public static function getRelations(): array
     {
         return [
-            PostsRelationManager::class
+            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTags::route('/'),
-            'create' => Pages\CreateTag::route('/create'),
-            'edit' => Pages\EditTag::route('/{record}/edit'),
+            'index' => Pages\ListComments::route('/'),
+            'create' => Pages\CreateComment::route('/create'),
+            'edit' => Pages\EditComment::route('/{record}/edit'),
         ];
     }
 }

@@ -42,11 +42,11 @@ class CustomerResource extends Resource
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('email')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')->sortable()->searchable()
-                    ->dateTime(),
+                    ->dateTime()->since(),
                 Tables\Columns\TextColumn::make('created_at')->sortable()->searchable()
-                    ->dateTime(),
+                    ->dateTime()->since(),
                 Tables\Columns\TextColumn::make('updated_at')->sortable()->searchable()
-                    ->dateTime(),
+                    ->dateTime()->since(),
             ])
             ->filters([
                 //

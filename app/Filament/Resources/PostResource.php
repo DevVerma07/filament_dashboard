@@ -78,7 +78,6 @@ class PostResource extends Resource
     {
         return [
             TagsRelationManager::class
-
         ];
     }
 

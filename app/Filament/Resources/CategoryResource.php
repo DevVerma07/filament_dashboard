@@ -43,9 +43,9 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')->limit('50')->sortable()->searchable()  ,
                 Tables\Columns\TextColumn::make('slug')->limit('50')->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
+                    ->dateTime()->since(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->dateTime()->since(),
             ])
             ->filters([
 

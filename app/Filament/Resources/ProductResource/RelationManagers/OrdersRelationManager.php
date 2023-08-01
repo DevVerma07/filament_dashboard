@@ -35,13 +35,13 @@ class OrdersRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('customer_name'),
-                Tables\Columns\TextColumn::make('customer_email'),
-                Tables\Columns\TextColumn::make('quantity'),
+                Tables\Columns\TextColumn::make('customer_name')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('customer_email')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('quantity')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()->since(),
+                    ->dateTime()->since()->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()->since(),
+                    ->dateTime()->since()->sortable(),
             ])
             ->filters([
                 //

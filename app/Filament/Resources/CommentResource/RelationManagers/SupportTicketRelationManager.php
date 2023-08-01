@@ -1,40 +1,36 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\CommentResource\RelationManagers;
 
-use App\Filament\Resources\SupportTicketResource\Pages;
-use App\Filament\Resources\SupportTicketResource\RelationManagers;
-use App\Models\SupportTicket;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class SupportTicketResource extends Resource
+class SupportTicketRelationManager extends RelationManager
 {
-    protected static ?string $model = SupportTicket::class;
-    protected static ?string $recordTitleAttribute = 'question';
+    protected static string $relationship = 'support_ticket';
 
-    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
+    protected static ?string $recordTitleAttribute = 'question';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Textarea::make('question')
+                Forms\Components\TextInput::make('question')
                     ->required()
-                    ->maxLength(200),
-            ])->columns(1);
+                    ->maxLength(255),
+            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('question')->limit(40),
+                Tables\Columns\TextColumn::make('question')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()->since(),
                 Tables\Columns\TextColumn::make('updated_at')
@@ -43,25 +39,18 @@ class SupportTicketResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+                Tables\Actions\AssociateAction::make(),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DissociateAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
+                Tables\Actions\DissociateBulkAction::make(),
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListSupportTickets::route('/'),
-        ];
     }
 }

@@ -16,7 +16,7 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function support_teeicket()
+    public function support_ticket()
     {
         return $this->belongsTo(SupportTicket::class);
     }

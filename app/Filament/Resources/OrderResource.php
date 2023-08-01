@@ -20,11 +20,14 @@ use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Filament\Resources\ProductResource\RelationManagers\OrderRelationManager;
 use App\Filament\Resources\OrderResource\RelationManagers\ProductsRelationManager;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Model;
 
 class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $recordTitleAttribute = 'customer_name';
+
+    protected static ?string $navigationIcon = 'heroicon-o-truck';
 
     public static function form(Form $form): Form
     {
@@ -40,10 +43,9 @@ class OrderResource extends Resource
                         ->maxLength(255),
                 ])->columns(2),
                 Forms\Components\Section::make(heading: 'Products')->schema([
-
                     Repeater::make('Products')
                         ->schema([
-                            BelongsToSelect::make('product_id')
+                            BelongsToSelect::make('products_id')
                                 ->relationship('products', 'name')->required(),
                             TextInput::make('quantity')->required(),
                         ])
@@ -87,6 +89,14 @@ class OrderResource extends Resource
             'index' => Pages\ListOrders::route('/'),
             'create' => Pages\CreateOrder::route('/create'),
             'edit' => Pages\EditOrder::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'name' => $record->customer_name,
+            'email' => $record->customer_email,
         ];
     }
 }

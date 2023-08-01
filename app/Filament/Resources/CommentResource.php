@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Tables;
 use App\Models\Comment;
 use Filament\Resources\Form;
+use App\Models\SupportTicket;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,12 +14,15 @@ use Filament\Forms\Components\BelongsToSelect;
 use App\Filament\Resources\CommentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CommentResource\RelationManagers;
+use App\Filament\Resources\CommentResource\RelationManagers\SupportTicketRelationManager;
+use App\Filament\Resources\CommentResource\RelationManagers\SupportTicketsRelationManager;
 
 class CommentResource extends Resource
 {
     protected static ?string $model = Comment::class;
+    protected static ?string $recordTitleAttribute = 'body';
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     public static function form(Form $form): Form
     {
@@ -63,7 +67,8 @@ class CommentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            SupportTicketRelationManager::class
+
         ];
     }
 
@@ -71,8 +76,6 @@ class CommentResource extends Resource
     {
         return [
             'index' => Pages\ListComments::route('/'),
-            'create' => Pages\CreateComment::route('/create'),
-            'edit' => Pages\EditComment::route('/{record}/edit'),
         ];
     }
 }

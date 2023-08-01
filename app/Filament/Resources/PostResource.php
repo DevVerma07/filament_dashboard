@@ -26,7 +26,7 @@ class PostResource extends Resource
     protected static ?string $model = Post::class;
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-sun';
 
     public static function form(Form $form): Form
     {
@@ -51,7 +51,6 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('category_id')->sortable(),
                 Tables\Columns\TextColumn::make('title')->limit(50)->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('slug')->limit(50)->sortable(),
                 Tables\Columns\TextColumn::make('content')->limit(50)->sortable()->searchable(),

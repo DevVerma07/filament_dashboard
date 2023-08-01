@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Comment;
+use Illuminate\Database\Eloquent\Model;
 use Database\Factories\SupportTicketFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class SupportTicket extends Model
 {

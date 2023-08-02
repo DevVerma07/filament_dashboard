@@ -33,6 +33,7 @@ class CategoryResource extends Resource
                         $set('slug', Str::slug($state));
                     }),
                 Forms\Components\TextInput::make('slug')->required(),
+
             ]);
     }
 
@@ -40,16 +41,15 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->limit('50')->sortable()->searchable()  ,
+                Tables\Columns\TextColumn::make('name')->limit('50')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('slug')->limit('50')->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()->since(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()->since(),
-            ])
-            ->filters([
 
             ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
@@ -69,6 +69,7 @@ class CategoryResource extends Resource
     {
         return [
             'index' => Pages\ListCategories::route('/'),
+            
         ];
     }
 }

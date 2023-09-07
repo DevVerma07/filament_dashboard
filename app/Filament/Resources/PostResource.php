@@ -83,7 +83,7 @@ class PostResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            StatsOverview::class
+        StatsOverview::class
         ];
     }
     public static function getPages(): array
